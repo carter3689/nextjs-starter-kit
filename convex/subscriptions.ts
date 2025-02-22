@@ -32,7 +32,7 @@ const createCheckout = async ({
     });
 
     console.log("Initialized Polar SDK with token:", process.env.POLAR_ACCESS_TOKEN?.substring(0, 8) + "...");
-
+    
     const result = await polar.checkouts.custom.create({
         productPriceId,
         successUrl,

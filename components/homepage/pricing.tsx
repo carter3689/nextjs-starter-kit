@@ -205,8 +205,8 @@ export default function Pricing() {
   const plans = [
     {
       title: "Pro",
-      monthlyPrice: 12,
-      yearlyPrice: 100,
+      monthlyPrice: 99,
+      yearlyPrice: 1000,
       description: "Advanced features for growing teams and businesses.",
       features: [
         "All Basic features",
