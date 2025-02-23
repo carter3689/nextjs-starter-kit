@@ -49,7 +49,7 @@ export default function DashboardSideBar() {
       <div className="flex h-full flex-col">
         <div className="flex h-[3.45rem] items-center border-b px-4">
           <Link prefetch={true} className="flex items-center gap-2 font-semibold hover:cursor-pointer" href="/">
-            <span>Nextjs Starter Kit</span>
+            <span>Client Hive</span>
           </Link>
         </div>
 
