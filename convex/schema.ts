@@ -81,4 +81,54 @@ export default defineSchema({
         .index("type", ["type"])
         .index("polarEventId", ["polarEventId"]),
 
+    // Define a schema for the "contacts" table
+    contacts: defineTable({
+        account_id: v.string(),
+        birthday: v.string(),
+        company_name: v.string(),
+        emails: v.array(
+          v.object({
+            email: v.string(),
+            type: v.string()
+          })
+        ),
+        id: v.string(),
+        im_addresses: v.array(
+          v.object({
+            im_address: v.string(),
+            type: v.string()
+          })
+        ),
+        job_title: v.string(),
+        manager_name: v.string(),
+        given_name: v.string(),
+        middle_name: v.string(),
+        surname: v.string(),
+        nickname: v.string(),
+        notes: v.string(),
+        object: v.string(),
+        office_location: v.string(),
+        phone_numbers: v.array(
+          v.object({
+            number: v.string(),
+            type: v.string()
+          })
+        ),
+        physical_addresses: v.array(v.any()),
+        picture_url: v.string(),
+        suffix: v.string(),
+        web_pages: v.array(v.any()),
+        groups: v.array(
+          v.object({
+            id: v.string(),
+            object: v.string(),
+            account_id: v.string(),
+            name: v.string(),
+            path: v.string()
+          })
+        )
+      })
+        .index("by_account", ["account_id"])
+        .index("contact_by_id", ["id"])
+
 })

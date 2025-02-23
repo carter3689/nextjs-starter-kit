@@ -6,7 +6,8 @@ import {
   Folder,
   HomeIcon,
   Settings,
-  LucideIcon
+  LucideIcon,
+  CircleUserRound
 } from "lucide-react"
 import Link from 'next/link'
 import { usePathname } from 'next/navigation'
@@ -32,6 +33,11 @@ const navItems: NavItem[] = [
     label: "Settings",
     href: "/dashboard/settings",
     icon: Settings
+  },
+  {
+    label: "Contacts",
+    href: "/dashboard/contacts",
+    icon: CircleUserRound
   }
 ]
 
