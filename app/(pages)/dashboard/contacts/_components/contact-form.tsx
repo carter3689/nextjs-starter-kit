@@ -1,8 +1,12 @@
 import React from 'react'
 import { zodResolver } from "@hookform/resolvers/zod"
 import { useForm } from "react-hook-form"
+import { useQuery, useMutation } from "convex/react";
+import { api } from "../../../../../convex/_generated/api";
 import { z } from 'zod'
+import { v4 as uuidv4 } from 'uuid'
 import { Button } from "@/components/ui/button"
+import { useRouter } from 'next/navigation'
 import {
   Form,
   FormControl,
@@ -35,10 +39,20 @@ const ContactForm = (props: Props) => {
             address: '',
         },
     })
+    const data = useMutation(api.contacts.createContact)
 
     function onSubmit(values: z.infer<typeof contactFormSchema>) {
         // Do something with the form values.
         // ✅ This will be type-safe and validated.
+        data({
+            firstName: values.firstName,
+            lastName: values.lastName,
+            email: values.email,
+            phone: values.phone,
+            address: values.address,
+            createdAt: new Date(Date.now()).toISOString(),
+            updatedAt: new Date(Date.now()).toISOString(),
+        })
         console.log(values)
         form.reset()
       }

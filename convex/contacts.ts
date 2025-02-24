@@ -10,10 +10,19 @@ export const getContacts = query({
     },
 });
 
+export const getContact = query({
+    args: {
+        contactId: v.id("contacts"),
+    },
+    handler: async (ctx, args) => {
+        const contact = await ctx.db.get(args.contactId);
+        return contact;
+    },
+})
+
 // Create a new contact
 export const createContact = mutation({
     args: {
-        id: v.string(),
         firstName: v.string(),
         lastName: v.string(),
         email: v.string(),
@@ -25,7 +34,6 @@ export const createContact = mutation({
     },
     handler: async (ctx, args) => {
         const contact = await ctx.db.insert("contacts", {
-            id: args.id,
             firstName: args.firstName,
             lastName: args.lastName,
             email: args.email,

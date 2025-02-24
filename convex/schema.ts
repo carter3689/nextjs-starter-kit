@@ -83,19 +83,17 @@ export default defineSchema({
 
     // Define a schema for the "contacts" table
     contacts: defineTable({
-        id: v.string(),
         firstName: v.string(),
         lastName: v.string(),
         email: v.string(),
         phone: v.string(),
         address: v.string(),
         createdAt: v.string(),
-        updatedAt: v.string(),
+        updatedAt: v.optional(v.string()),
         lastContacted: v.optional(v.string()),
         notes: v.optional(v.string()),
         tags: v.optional(v.array(v.string())),
         customFields: v.optional(v.object({})),
       })
-      .index("id", ["id"])
 
 })

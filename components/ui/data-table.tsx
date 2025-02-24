@@ -23,10 +23,20 @@ interface DataTableProps<TData, TValue> {
   data: TData[]
 }
 
+interface Contact {
+  _id: string
+  firstName: string
+  lastName: string
+  email: string
+  phone: string
+  address: string
+  createdAt: string
+}
+
 export function DataTable<TData, TValue>({
   columns,
   data,
-}: DataTableProps<TData, TValue>) {
+}: DataTableProps<Contact, TValue>) {
   const table = useReactTable({
     data,
     columns,
@@ -63,7 +73,7 @@ export function DataTable<TData, TValue>({
               >
                 {row.getVisibleCells().map((cell) => (
                   <TableCell key={cell.id}>
-                    <Link href={`/dashboard/contacts/${row.id}`}>
+                    <Link href={`/dashboard/contacts/${row.original._id}`}>
                     {flexRender(cell.column.columnDef.cell, cell.getContext())}
                     </Link>
                   </TableCell>

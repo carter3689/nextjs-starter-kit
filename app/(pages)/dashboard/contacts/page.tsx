@@ -8,18 +8,20 @@ import { Dialog, DialogContent, DialogDescription, DialogFooter, DialogHeader, D
 import { Label } from '@/components/ui/label'
 import { Input } from '@/components/ui/input'
 import ContactForm from './_components/contact-form'
+import { useRouter } from 'next/navigation'
+
 
 type Props = {}
 
 const Contacts = (props: Props) => {
     const columns = [
         {
-            accessorKey: 'id',
-            header: 'ID',
+            accessorKey: 'firstName',
+            header: 'First Name',
         },
         {
-            accessorKey: 'name',
-            header: 'Name',
+            accessorKey: 'lastName',
+            header: 'Last Name',
         },
         {
             accessorKey: 'email',
@@ -36,31 +38,13 @@ const Contacts = (props: Props) => {
     ]
 
     const contacts = useQuery(api.contacts.getContacts)
+    const router = useRouter()
     console.log(contacts)
 
-    const data = [
-        {
-            id: '1',
-            name: 'John Doe',
-            email: 'john@example.com',
-            phone: '1234567890',
-            address: '123 Main St, City, Country',
-        },
-        {
-            id: '2',
-            name: 'Jane Smith',
-            email: 'jane@example.com',
-            phone: '9876543210',
-            address: '456 Elm St, City, Country',
-        },
-        {
-            id: '3',
-            name: 'Bob Johnson',
-            email: 'bob@example.com',
-            phone: '5555555555',
-            address: '789 Oak St, City, Country',
-        },
-    ]
+    const handleDialogOpen = () => {
+      router.refresh()
+      console.log('Dialog Changed - Close')
+    }
   return (
     <div className="flex flex-col gap-6 p-6">
     {/* Header */}
@@ -70,7 +54,7 @@ const Contacts = (props: Props) => {
         <h1 className="text-3xl font-semibold tracking-tight">Contacts</h1>
         <p className="text-muted-foreground mt-2">Manage your contacts from the list below</p>
         </div>
-        <Dialog>
+        <Dialog onOpenChange={handleDialogOpen}>
             <DialogTrigger asChild>
                 <Button variant="outline">Add New Contact</Button>
             </DialogTrigger>
@@ -89,7 +73,13 @@ const Contacts = (props: Props) => {
         </Dialog>
     </div>
     </div>
-    <DataTable columns={columns} data={data} />
+    {!contacts ? (
+      <div className="flex items-center justify-center h-[50vh]">
+        <h1 className="text-xl font-semibold">No Contacts Created - Use Create Contacts Button to create one!</h1>
+      </div>
+    ) : (
+      <DataTable columns={columns} data={contacts} />
+    )}
     </div>
 
   )
