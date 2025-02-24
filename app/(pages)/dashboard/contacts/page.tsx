@@ -1,5 +1,5 @@
 'use client'
-import React from 'react'
+import React, {useState, useEffect} from 'react'
 import { DataTable } from '@/components/ui/data-table'
 import { useQuery } from 'convex/react'
 import { api } from '@/convex/_generated/api'
@@ -14,6 +14,7 @@ import { useRouter } from 'next/navigation'
 type Props = {}
 
 const Contacts = (props: Props) => {
+  const [open, setOpen] = useState(false)
     const columns = [
         {
             accessorKey: 'firstName',
@@ -41,10 +42,10 @@ const Contacts = (props: Props) => {
     const router = useRouter()
     console.log(contacts)
 
-    const handleDialogOpen = () => {
+    const handleDataLoad = () => {
       router.refresh()
-      console.log('Dialog Changed - Close')
     }
+
   return (
     <div className="flex flex-col gap-6 p-6">
     {/* Header */}
@@ -54,7 +55,8 @@ const Contacts = (props: Props) => {
         <h1 className="text-3xl font-semibold tracking-tight">Contacts</h1>
         <p className="text-muted-foreground mt-2">Manage your contacts from the list below</p>
         </div>
-        <Dialog onOpenChange={handleDialogOpen}>
+        <Button onClick={handleDataLoad}>Load</Button>
+        <Dialog open={open} onOpenChange={setOpen}>
             <DialogTrigger asChild>
                 <Button variant="outline">Add New Contact</Button>
             </DialogTrigger>
@@ -66,7 +68,7 @@ const Contacts = (props: Props) => {
           </DialogDescription>
         </DialogHeader>
         <div className="grid gap-4 py-4">
-         <ContactForm />
+         <ContactForm onSuccess={() => setOpen(false)} />
 
         </div>
       </DialogContent>

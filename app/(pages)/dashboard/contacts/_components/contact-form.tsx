@@ -18,7 +18,9 @@ import {
 } from "@/components/ui/form"
 import { Input } from "@/components/ui/input"
 
-type Props = {}
+type Props = {
+  onSuccess?: () => void
+}
 
 const contactFormSchema = z.object({
   firstName: z.string().min(1, { message: 'Name is required' }),
@@ -40,6 +42,7 @@ const ContactForm = (props: Props) => {
         },
     })
     const data = useMutation(api.contacts.createContact)
+    const router = useRouter()
 
     function onSubmit(values: z.infer<typeof contactFormSchema>) {
         // Do something with the form values.
@@ -52,9 +55,11 @@ const ContactForm = (props: Props) => {
             address: values.address,
             createdAt: new Date(Date.now()).toISOString(),
             updatedAt: new Date(Date.now()).toISOString(),
+        }).then(() => {
+          form.reset()
+           router.refresh()
+           props.onSuccess?.()
         })
-        console.log(values)
-        form.reset()
       }
   return (
     <Form {...form}>
