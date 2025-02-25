@@ -1,5 +1,5 @@
 'use client'
-import React, {useState, useEffect} from 'react'
+import React, {useState, useEffect, use} from 'react'
 import { DataTable } from '@/components/ui/data-table'
 import { useQuery } from 'convex/react'
 import { api } from '@/convex/_generated/api'
@@ -13,8 +13,19 @@ import { useRouter } from 'next/navigation'
 
 type Props = {}
 
+interface Contact {
+  _id: string
+  firstName: string
+  lastName: string
+  email: string
+  phone: string
+  address: string
+  createdAt: string
+}
+
 const Contacts = (props: Props) => {
   const [open, setOpen] = useState(false)
+  const [contacts, setContacts] = useState<Contact[]>([])
     const columns = [
         {
             accessorKey: 'firstName',
@@ -38,13 +49,17 @@ const Contacts = (props: Props) => {
         },
     ]
 
-    const contacts = useQuery(api.contacts.getContacts)
+    const data = useQuery(api.contacts.getContacts)
     const router = useRouter()
+    console.log('BEFORE REFRESH')
     console.log(contacts)
+    
+useEffect(() => {
+  if (data){
+    setContacts(data)
+  }
 
-    const handleDataLoad = () => {
-      router.refresh()
-    }
+}, [data])
 
   return (
     <div className="flex flex-col gap-6 p-6">
@@ -55,7 +70,6 @@ const Contacts = (props: Props) => {
         <h1 className="text-3xl font-semibold tracking-tight">Contacts</h1>
         <p className="text-muted-foreground mt-2">Manage your contacts from the list below</p>
         </div>
-        <Button onClick={handleDataLoad}>Load</Button>
         <Dialog open={open} onOpenChange={setOpen}>
             <DialogTrigger asChild>
                 <Button variant="outline">Add New Contact</Button>
@@ -75,12 +89,12 @@ const Contacts = (props: Props) => {
         </Dialog>
     </div>
     </div>
-    {!contacts ? (
+    {!data ? (
       <div className="flex items-center justify-center h-[50vh]">
         <h1 className="text-xl font-semibold">No Contacts Created - Use Create Contacts Button to create one!</h1>
       </div>
     ) : (
-      <DataTable columns={columns} data={contacts} />
+      <DataTable columns={columns} data={data} />
     )}
     </div>
 

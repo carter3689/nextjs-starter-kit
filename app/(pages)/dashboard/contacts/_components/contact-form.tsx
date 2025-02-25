@@ -55,11 +55,11 @@ const ContactForm = (props: Props) => {
             address: values.address,
             createdAt: new Date(Date.now()).toISOString(),
             updatedAt: new Date(Date.now()).toISOString(),
-        }).then(() => {
-          form.reset()
-           router.refresh()
-           props.onSuccess?.()
         })
+        form.reset()
+        props.onSuccess?.()
+        
+        router.refresh()
       }
   return (
     <Form {...form}>
